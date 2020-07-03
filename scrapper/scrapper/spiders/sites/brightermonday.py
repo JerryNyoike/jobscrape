@@ -51,27 +51,27 @@ class BrighterMonday(site.Site):
 	def get_description(self, divs):
 		text = ' '.join(divs)
 
-		description = search(r".Job brief(.*?)Responsibilities?", text, IGNORE_CASE)
+		description = search(r".?Job brief(.*?)Responsibilities?", text, IGNORE_CASE)
 		if description:
 			job.description = description.group(1)
-			text = sub(r".Job brief(.*?)Responsibilities?", description.group(1), text)
+			text = sub(r".?Job brief(.*?)Responsibilities?", description.group(1), text)
 
-		qualification = search(r".Qualification(.*?)Experience?", text, IGNORE_CASE)
+		qualification = search(r".?Qualification(.*?)Experience?", text, IGNORE_CASE)
 		if qualification:
 			jop.qualification = qualification.group(1)
 			job.requirements = qualification.group(1)
 
-		positionLevel = search(r".Level:(.*?)Experience?", text, IGNORE_CASE)
+		positionLevel = search(r".?Level:(.*?)Experience?", text, IGNORE_CASE)
 		if positionLevel:
 			jop.positionLevel = positionLevel.group(1)
-			text = sub(r".Level:(.*?)Experience?", positionLevel.group(1), text)
+			text = sub(r".?Level:(.*?)Experience?", positionLevel.group(1), text)
 
-		responsibilities = search(r".Responsibilities:(.*?)Requirements?", text, IGNORE_CASE)
+		responsibilities = search(r".?Responsibilities:(.*?)Requirements?", text, IGNORE_CASE)
 		if responsibilities:
 			jop.responsibilities = responsibilities.group(1)
-			text = sub(r".Responsibilities:(.*?)Requirements?", responsibilities.group(1), text)
+			text = sub(r".?Responsibilities:(.*?)Requirements?", responsibilities.group(1), text)
 
-		requirements = search(r".Requirements(.*?)$", text, IGNORE_CASE)
+		requirements = search(r".?Requirements(.*?)$", text, IGNORE_CASE)
 		if requirements:
 			jop.requirements = str(job.requirements + requirements.group(1))
 			job.skills = requirements.group(1)

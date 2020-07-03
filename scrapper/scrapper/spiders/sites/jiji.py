@@ -43,45 +43,45 @@ class Jiji(site.Site):
 	def get_details(self, divs):
 		text = " ".join(divs)
 
-	    company = search(r".Name(.*?)Job?", text, IGNORE_CASE)	
+	    company = search(r".?Name(.*?)Job?", text, IGNORE_CASE)
 		if company:
 			job.company = company.group(1)
 			job.industry = company.group(1)
-			text = sub(r".Name(.*?)Job?", company.group(1), text)
+			text = sub(r".?Name(.*?)Job?", company.group(1), text)
 
-	    jobType = search(r".Type(.*?)Carrer?", text, IGNORE_CASE)	
+	    jobType = search(r".?Type(.*?)Carrer?", text, IGNORE_CASE)
 		if jobType:
 			job.jobType = jobType.group(1)
 			job.employmentType = jobType.group(1)
-			text = sub(r".Type(.*?)Carrer?", jobType.group(1), text)
+			text = sub(r".?Type(.*?)Carrer?", jobType.group(1), text)
 
-		positionLevel = search(r".Level(.*?)Application?", text, IGNORE_CASE)
+		positionLevel = search(r".?Level(.*?)Application?", text, IGNORE_CASE)
 		if positionLevel:
 			job.positionLevel = positionLevel.group(1)
-			text = sub(r".Level(.*?)Application?", positionLevel.group(1), text)
+			text = sub(r".?Level(.*?)Application?", positionLevel.group(1), text)
 
-		deadline = search(r".Deadline(.*?)Responsibilities?", text, IGNORE_CASE)
+		deadline = search(r".?Deadline(.*?)Responsibilities?", text, IGNORE_CASE)
 		if deadline:
 			job.deadline = deadline.group(1)
-			text = sub(r".Deadline(.*?)Responsibilities?", deadline.group(1), text)
+			text = sub(r".?Deadline(.*?)Responsibilities?", deadline.group(1), text)
 
-		responsibilities = search(r".Responsibilities(.*?)Requirements?", text, IGNORE_CASE)
+		responsibilities = search(r".?Responsibilities(.*?)Requirements?", text, IGNORE_CASE)
 		if responsibilities:
 			job.responsibilities = responsibilities.group(1)
-			text = sub(r".Responsibilities(.*?)Requirements?", responsibilities.group(1), text)
+			text = sub(r".?Responsibilities(.*?)Requirements?", responsibilities.group(1), text)
 
-		requirements = search(r".Skills(.*?)Minimum?", text, IGNORE_CASE)
+		requirements = search(r".?Skills(.*?)Minimum?", text, IGNORE_CASE)
 		if requirements:
 			job.requirements = requirements.group(1)
 			job.skills = requirements.group(1)
-			text = sub(r".Skills(.*?)Minimum?", requirements.group(1), text)
+			text = sub(r".?Skills(.*?)Minimum?", requirements.group(1), text)
 
-		qualifications = search(r".Requirements(.*?)Minimum?", text, IGNORE_CASE)
+		qualifications = search(r".?Requirements(.*?)Minimum?", text, IGNORE_CASE)
 		if responsibilities:
 			job.requirements = str(job.requirements + qualifications.group(1))
-			text = sub(r".Responsibilities(.*?)Requirements?", responsibilities.group(1), text)
+			text = sub(r".?Responsibilities(.*?)Requirements?", responsibilities.group(1), text)
 
-		salary = search(r".Salary(.*?)$", text, IGNORE_CASE)
+		salary = search(r".?Salary(.*?)$", text, IGNORE_CASE)
 		if salary:
 			job.salary = salary.group(1)
 
