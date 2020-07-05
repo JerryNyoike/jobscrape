@@ -12,6 +12,9 @@ BOT_NAME = 'scrapper'
 SPIDER_MODULES = ['scrapper.spiders']
 NEWSPIDER_MODULE = 'scrapper.spiders'
 
+ITEM_PIPELINES = {
+    'scrapper.pipelines.CsvWriterPipeline': 100
+}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'scrapper (+http://www.yourdomain.com)'
@@ -87,33 +90,33 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-FEEDS = {
-        pathlib.Path('items.csv'): {
-            'format': 'csv',
-            'fields': [
-                'ID',
-                'Job ID',
-                'Website Name',
-                'Link/URL',
-                'Job Title',
-                'Job Type',
-                'Position Level',
-                'Number of Positions',
-                'Upload Date',
-                'Year',
-                'Closing Date',
-                'Town',
-                'Contact information',
-                'Readvertised',
-                'Salary',
-                'Company Name',
-                'Technology',
-                'Description',
-                'Employment type',
-                'Skills',
-                'Industry',
-                'Responsibilities',
-                'Education requirements',
-                'Country'
-                ],
-        }
+# FEEDS = {
+#         pathlib.Path('items.csv'): {
+#             'format': 'csv',
+#             'fields': [
+#                 'ID',
+#                 'Job ID',
+#                 'Website Name',
+#                 'Link/URL',
+#                 'Job Title',
+#                 'Job Type',
+#                 'Position Level',
+#                 'Number of Positions',
+#                 'Upload Date',
+#                 'Year',
+#                 'Closing Date',
+#                 'Town',
+#                 'Contact information',
+#                 'Readvertised',
+#                 'Salary',
+#                 'Company Name',
+#                 'Technology',
+#                 'Description',
+#                 'Employment type',
+#                 'Skills',
+#                 'Industry',
+#                 'Responsibilities',
+#                 'Education requirements',
+#                 'Country'
+#                 ],
+#         }

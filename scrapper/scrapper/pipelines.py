@@ -17,7 +17,7 @@ class CsvWriterPipeline:
             if entry.find('.csv') is not -1:
                 outputFiles+=1
 
-        self.file = open(f'KEN Webscraping Job Posts-v{outputFiles}.csv', 'w')
+        self.file = open(f"KEN Webscraping Job Posts-v{outputFiles}.csv", 'w')
 
     def close_spider(self, spider):
         self.file.close()
