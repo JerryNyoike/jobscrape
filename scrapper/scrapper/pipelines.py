@@ -25,7 +25,8 @@ class CsvWriterPipeline:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         columns = adapter.field_names()
-        writer = csv.DictWriter(self.file, fieldnames=fields)
+        writer = csv.DictWriter(self.file, fieldnames=columns)
 
-        writer.writeheader()
+        if self.file.tell() == 0:
+            writer.writeheader()
         writer.writerow(adapter.asdict())
