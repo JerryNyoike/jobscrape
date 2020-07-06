@@ -89,34 +89,3 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
-
-# FEEDS = {
-#         pathlib.Path('items.csv'): {
-#             'format': 'csv',
-#             'fields': [
-#                 'ID',
-#                 'Job ID',
-#                 'Website Name',
-#                 'Link/URL',
-#                 'Job Title',
-#                 'Job Type',
-#                 'Position Level',
-#                 'Number of Positions',
-#                 'Upload Date',
-#                 'Year',
-#                 'Closing Date',
-#                 'Town',
-#                 'Contact information',
-#                 'Readvertised',
-#                 'Salary',
-#                 'Company Name',
-#                 'Technology',
-#                 'Description',
-#                 'Employment type',
-#                 'Skills',
-#                 'Industry',
-#                 'Responsibilities',
-#                 'Education requirements',
-#                 'Country'
-#                 ],
-#         }
