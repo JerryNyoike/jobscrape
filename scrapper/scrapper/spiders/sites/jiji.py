@@ -42,44 +42,39 @@ class Jiji(site.Site):
 		divs = self.clean_page(divs)
 		text = self.clean_text(" ".join(divs))
 
-		company = search(r".?Name(.*?)Job?", text, IGNORECASE)
-		if company:
-			job["company"] = company.group(1)
-			job["industry"] = company.group(1)
-			text = text.replace(company.group(1), '')
+		re_list = [
+			{
+				"re": r".?Name(.*?)Job?",
+				"fields": ["company", "industry"]
+			},
+			{
+				"re": r".?Type(.*?)Carrer?",
+				"fields": ["jobType", "employmentType"]
+			},
+			{
+				"re": r".?Level(.*?)Application?",
+				"fields": ["positionLevel"]
+			},
+			{
+				"re": r".?Deadline(.*?)Responsibilities?",
+				"fields": ["deadline"]
+			},
+			{
+				"re": r".?Responsibilities(.*?)Requirements?",
+				"fields": ["responsibilities"]
+			},
+			{
+				"re": r".?Skills(.*?)Minimum?",
+				"fields": ["requirements", "skills"]
+			},
+			{
+				"re": r".?Requirements(.*?)Minimum?",
+				"fields": ["qualification"]
+			},
+			{
+				"re": r".?Salary(.*?)$",
+				"fields": ["salary"]
+			}
+		]
 
-		jobType = search(r".?Type(.*?)Carrer?", text, IGNORECASE)
-		if jobType:
-			job["jobType"] = jobType.group(1)
-			job["employmentType"] = jobType.group(1)
-			text = text.replace(jobType.group(1), '')
-
-		positionLevel = search(r".?Level(.*?)Application?", text, IGNORECASE)
-		if positionLevel:
-			job["positionLevel"] = positionLevel.group(1)
-			text = text.replace(positionLevel.group(1), '')
-
-		deadline = search(r".?Deadline(.*?)Responsibilities?", text, IGNORECASE)
-		if deadline:
-			job["deadline"] = deadline.group(1)
-			text = text.replace(deadline.group(1), '')
-
-		responsibilities = search(r".?Responsibilities(.*?)Requirements?", text, IGNORECASE)
-		if responsibilities:
-			job["responsibilities"] = responsibilities.group(1)
-			text = text.replace(responsibilities.group(1), '')
-
-		requirements = search(r".?Skills(.*?)Minimum?", text, IGNORECASE)
-		if requirements:
-			job["requirements"] = requirements.group(1)
-			job["skills"] = requirements.group(1)
-			text = text.replace(requirements.group(1), '')
-
-		qualifications = search(r".?Requirements(.*?)Minimum?", text, IGNORECASE)
-		if responsibilities:
-			job["requirements"] = str(job["requirements"] + qualifications.group(1))
-			text = text.replace(qualifications.group(1), '')
-
-		salary = search(r".?Salary(.*?)$", text, IGNORECASE)
-		if salary:
-			job["salary"] = salary.group(1)
+		self.regex_search(text, re_list, job)
