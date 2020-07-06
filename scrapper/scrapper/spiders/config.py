@@ -52,6 +52,7 @@ def createUrls(baseUrl, identifier, searchWords=keywords):
     baseUrl : the root of the website
     identifier : the name of the query parameter used by the site while performing a search
     searchWords : the words to search on the website
+    returns the urls for the searches in a list which can then be used by start_urls or start_requests in a spider
     '''
     createQueryPairs = lambda keyword : {identifier: keyword}
     makeUrl = lambda keywordPair : baseUrl+urlencode(keywordPair)
