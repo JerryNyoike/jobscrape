@@ -4,24 +4,23 @@ from re import search, IGNORECASE
 
 
 class BrighterMonday(site.Site):
-	"""Site class for https://www.ajiradigital.go.ke/home"""
+	"""Site class for https://www.brightermonday.co.ke/"""
 
 	def __init__(self):
-		self.meta = [
-			{
-				"name": "Brighter Monday",
-				"url": "https://www.brightermonday.co.ke/jobs/software-data?industry[]=it-telecoms",
-				"domain": 'https://www.brightermonday.co.ke/',
-				"method": "GET",
-				"link_selector": '.search-result__job-title::attr(href)'
-			}
-		]
+		self.meta = {
+			"name": "Brighter Monday",
+			"base_url": "https://www.brightermonday.co.ke/jobs?",
+			"domain": 'https://www.brightermonday.co.ke',
+			"method": "GET",
+			"search_param": "q",
+			"link_selector": '.search-result__job-title::attr(href)'
+		}
 		super().__init__(self.meta)
 
 	def parse(self, response):
 		job = Job()
 		job["ID"] = 1
-		job["website"] = self.meta[0]["domain"]
+		job["website"] = self.meta["domain"]
 		job["url"] = response.url
 		job["jobTitle"] = self.clean_text(response.css('.job-header__title::text').get())
 		job["positions"] = 1
@@ -50,7 +49,7 @@ class BrighterMonday(site.Site):
 
 	def get_description(self, divs, job):
 		divs = self.clean_page(divs)
-		text = self.clean_text(' '.join(divs))
+		text = " ".join(divs)
 
 		re_list = [
 			{

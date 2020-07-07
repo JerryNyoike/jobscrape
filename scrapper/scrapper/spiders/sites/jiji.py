@@ -4,24 +4,24 @@ from re import search, IGNORECASE
 
 
 class Jiji(site.Site):
-	"""Site class for https://www.ajiradigital.go.ke/home"""
+	"""Site class for https://www.jiji.co.ke/"""
 
 	def __init__(self):
-		self.meta = [
-			{
-				"name": "Jiji.ke",
-				"url": "https://jiji.co.ke/computing-and-it-jobs",
-				"domain": 'https://jiji.co.ke/',
-				"method": "GET",
-				"link_selector": 'a.b-list-advert__item-image::attr(href)'
-			}
-		]
+		self.meta = {
+			"name": "Jiji.ke",
+			"base_url": "https://jiji.co.ke/jobs?",
+			"domain": 'https://jiji.co.ke',
+			"method": "GET",
+			"search_param": "query",
+			"link_selector": 'a.b-list-advert__item-image::attr(href)'
+		}
+		
 		super().__init__(self.meta)
 
 	def parse(self, response):
 		job = Job()
 		job["ID"]= 1
-		job["website"] = self.meta[0]["domain"]
+		job["website"] = self.meta["domain"]
 		job["url"] = response.url
 		title = self.clean_text(response.css('.b-advert-title-inner::text').get())
 		job["jobTitle"] = title
@@ -40,7 +40,7 @@ class Jiji(site.Site):
 
 	def get_details(self, divs, job):
 		divs = self.clean_page(divs)
-		text = self.clean_text(" ".join(divs))
+		text = " ".join(divs)
 
 		re_list = [
 			{
@@ -72,7 +72,7 @@ class Jiji(site.Site):
 				"fields": ["qualification"]
 			},
 			{
-				"re": r".?Salary(.*?)$",
+				"re": r".?Salary(.{2,30}).?",
 				"fields": ["salary"]
 			}
 		]
