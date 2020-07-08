@@ -21,6 +21,7 @@ class Job(scrapy.Item):
     description = scrapy.Field()
     employmentType = scrapy.Field()
     skills = scrapy.Field()
+    qualification = scrapy.Field()
     industry = scrapy.Field()
     responsibilities = scrapy.Field()
     requirements = scrapy.Field()
