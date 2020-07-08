@@ -12,10 +12,10 @@ class Site(object):
 	def clean_text(self, text):
 		if text:
 			text = text.replace('\n','')
-			text = text.replace('\t','')
-			double_space = search(r".*?(\s*).?", text)
-			if double_space:
-				text = text.replace(double_space.group(1), '')
+                        text = text.replace('\t','')
+                        double_space = search(r".*?(\s*).?", text)
+                        if double_space:
+                            text = text.replace(double_space.group(1), '')
 		return text
 
 	def clean_page(self, output):
