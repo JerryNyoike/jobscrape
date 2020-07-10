@@ -13,7 +13,8 @@ class BrighterMonday(site.Site):
 			"domain": 'https://www.brightermonday.co.ke',
 			"method": "GET",
 			"search_param": "q",
-			"link_selector": '.search-result__job-title::attr(href)'
+			"link_selector": '.search-result__job-title::attr(href)',
+			"next_page_selector": 'ul.pagination li:last-child a::attr(href)'
 		}
 		super().__init__(self.meta)
 
@@ -58,7 +59,7 @@ class BrighterMonday(site.Site):
 			},
 			{
 				"re": r".?Qualification(.*?)Experience?",
-				"fields": ["qualification"]
+				"fields": ["skills"]
 			},
 			{
 				"re": r".?Level:(.*?)Experience?",
