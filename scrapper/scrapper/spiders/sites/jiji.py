@@ -69,7 +69,7 @@ class Jiji(site.Site):
 			},
 			{
 				"re": r".?Requirements(.*?)Minimum?",
-				"fields": ["qualification"]
+				"fields": ["skills"]
 			},
 			{
 				"re": r".?Salary(.{2,30}).?",
