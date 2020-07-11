@@ -75,14 +75,17 @@ keywords = [
         "Digital Marketing Executive",
         ]
 
-def createUrls(baseUrl, identifier, searchWords=keywords):
+def createUrls(baseUrl, identifier, searchWords=keywords, extraParams={}):
     ''' This function creates the search urls to be crawled by the spiders.
     baseUrl : the root of the website
     identifier : the name of the query parameter used by the site while performing a search
     searchWords : the words to search on the website
     returns the urls for the searches in a list which can then be used by start_urls or start_requests in a spider
     '''
-    createQueryPairs = lambda keyword : {identifier: keyword}
+    def createQueryPairs(keyword): 
+        extraParams[identifier] = keyword
+        return extraParams
+        
     makeUrl = lambda keywordPair : baseUrl+urlencode(keywordPair)
 
     keywordPairs = list(map(createQueryPairs, searchWords))
