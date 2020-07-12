@@ -10,11 +10,12 @@ class BestJobs(site.Site):
 	def __init__(self):
 		self.meta = {
 			"name": "Best Jobs Kenya",
-			"url": "https://www.bestjobskenya.com/job-of-computer?",
+			"base_url": "https://www.bestjobskenya.com/job-of-computer?",
 			"domain": 'https://www.bestjobskenya.com',
 			"method": "GET",
 			"search_param": "q",
-			"link_selector": 'a.js-o-link::attr(href)'
+			"link_selector": 'a.js-o-link::attr(href)',
+                        "next_page_selector": "div.paginas ul li.siguente a::attr(href)"
 		}
 		super().__init__(self.meta)
 
