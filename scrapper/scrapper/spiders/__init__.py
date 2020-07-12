@@ -59,4 +59,5 @@ class JobSpider(sc.Spider):
             sites.jiji.Jiji(),
             sites.bestjobs.BestJobs(),
             sites.coopstaffing.CoopStaffing()
+            sites.jik.Jik(),
         ]
