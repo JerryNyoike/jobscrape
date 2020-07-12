@@ -26,11 +26,22 @@ class JobSpider(sc.Spider):
         meta: metadata on the site
         '''
         for href in response.css(meta["link_selector"]).getall():
-            is_full = search(r"^https.?|^http.?", href)
-            if not is_full:
+            if not self.url_is_full(href):
                 yield sc.Request(str(meta["domain"] + href), self.parse, cb_kwargs=dict(site=site))
             else:
                 yield sc.Request(href, self.parse, cb_kwargs=dict(site=site))
+        
+        if 'next_page_selector' in meta:
+            next_page = response.css(meta['next_page_selector']).get()
+            if next_page:
+                if self.url_is_full(next_page):
+                    yield sc.Request(url=next_page, callback=self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
+                else:
+                    yield sc.Request(str(meta["domain"] + next_page), self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
+    
+    @classmethod
+    def url_is_full(self, url):
+        return search(r"^https.?|^http.?", url)
 
     def parse(self, response, site):
         '''This function passes the response from a job page to the parse 
@@ -47,14 +58,6 @@ class JobSpider(sc.Spider):
             sites.brightermonday.BrighterMonday(),
             sites.jiji.Jiji(),
             sites.bestjobs.BestJobs(),
+            sites.coopstaffing.CoopStaffing()
             sites.jik.Jik(),
         ]
-
-				
-
-
-
-
-
-
-

@@ -15,7 +15,7 @@ class BestJobs(site.Site):
 			"method": "GET",
 			"search_param": "q",
 			"link_selector": 'a.js-o-link::attr(href)',
-                        "next_page_selector": "div.paginas ul li.siguente a::attr(href)"
+			"next_page_selector": '.siguiente a::attr(href)'
 		}
 		super().__init__(self.meta)
 
@@ -66,7 +66,7 @@ class BestJobs(site.Site):
 			},
 			{
 				"re": r".?QUALIFICATIONS(.*?)HOW TO APPLY?",
-				"fields": ["qualification"]
+				"fields": ["skills"]
 			},
 			{
 				"re": r".?Hiring manager on(.*?)strictly?",
