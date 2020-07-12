@@ -46,7 +46,8 @@ class JobSpider(sc.Spider):
         return [
             sites.brightermonday.BrighterMonday(),
             sites.jiji.Jiji(),
-            sites.bestjobs.BestJobs()
+            sites.bestjobs.BestJobs(),
+            sites.jik.Jik(),
         ]
 
 				
