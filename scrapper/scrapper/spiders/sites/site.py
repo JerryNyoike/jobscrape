@@ -1,6 +1,6 @@
 from logging import info
 from re import search, sub, IGNORECASE
-
+from urllib.parse import urlencode
 
 class Site(object):
 
@@ -8,6 +8,21 @@ class Site(object):
 
 	def __init__(self, meta):
 		self.meta = meta
+	
+	def createUrls(self, baseUrl, identifier, searchWords, params={}):
+		''' This function creates the search urls to be crawled by the spiders.
+		baseUrl : the root of the website
+		identifier : the name of the query parameter used by the site while performing a search
+		searchWords : the words to search on the website
+		returns the urls for the searches in a list which can then be used by start_urls or start_requests in a spider
+		'''
+		createQueryPairs = lambda keyword : {identifier: keyword}
+
+		makeUrl = lambda keywordPair : baseUrl+urlencode(keywordPair)
+
+		params = list(map(createQueryPairs, searchWords))
+
+		return list(map(makeUrl, params))
 
 	def regex_search(self, text, re_list, job):
 		'''This function does a regex search in a string of text for a 
@@ -32,7 +47,7 @@ class Site(object):
 			text = text.replace('\n', '')
 			text = sub(r".*?(<.*?>)", '', text)
 			text = sub(r"^[\s]*|[\s]*$", '', text)
-			text = sub(r"[\s*]{2,}", ' ', text)
+			text = sub(r"[\s\r*]{2,}", ' ', text)
 		return text
 
 	def clean_page(self, output):
@@ -44,3 +59,4 @@ class Site(object):
 			for i, text_node in enumerate(output):	
 				output[i] = self.clean_text(text_node)
 		return output
+	

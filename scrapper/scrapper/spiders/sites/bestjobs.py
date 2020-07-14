@@ -10,7 +10,7 @@ class BestJobs(site.Site):
 	def __init__(self):
 		self.meta = {
 			"name": "Best Jobs Kenya",
-			"base_url": "https://www.bestjobskenya.com/job-of-computer?",
+			"base_url": "https://www.bestjobskenya.com/job-of-design?",
 			"domain": 'https://www.bestjobskenya.com',
 			"method": "GET",
 			"search_param": "q",
