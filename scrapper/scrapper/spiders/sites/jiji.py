@@ -74,6 +74,10 @@ class Jiji(site.Site):
 			{
 				"re": r".?Salary(.{2,30}).?",
 				"fields": ["salary"]
+			},
+			{
+				"re": r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}",
+				"fields": ["contact"]
 			}
 		]
 

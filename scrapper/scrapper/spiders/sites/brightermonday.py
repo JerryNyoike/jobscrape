@@ -41,13 +41,16 @@ class BrighterMonday(site.Site):
 		return job
 
 	def get_company(self, h2s, job):
-		job["company"] = self.clean_text(h2s[0])
-		job["technology"] = self.clean_text(h2s[1])
+		if h2s:
+			job["company"] = self.clean_text(h2s[0])
+			if len(h2s) > 1:
+				job["technology"] = self.clean_text(h2s[1])
 
 	def get_town(self, divs, job):
-		if len(divs) > 1:
+		if divs:
 			job["town"] = self.clean_text(divs[0])
-			job["industry"] = self.clean_text(divs[1])
+			if len(divs) > 1:
+				job["industry"] = self.clean_text(divs[1])
 
 	def get_description(self, divs, job):
 		divs = self.clean_page(divs)

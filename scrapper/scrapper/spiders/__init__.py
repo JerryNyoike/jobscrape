@@ -87,7 +87,11 @@ class JobSpider(sc.Spider):
         '''This function iterates over a list of site objects to find links to job pages'''
         self.sites = self.get_sites()
         for site in self.sites:
-            start_urls = site.createUrls(site.meta["base_url"], site.meta["search_param"], keywords)
+            get_args = {}
+            if 'get_args' in site.meta:
+                get_args = site.meta['get_args']
+
+            start_urls = site.createUrls(site.meta["base_url"], site.meta["search_param"], keywords, get_args)
             for url in start_urls:
                 yield sc.Request(url=url, callback=self.parse_sites, cb_kwargs=dict(site=site, meta=site.meta))
 
@@ -133,4 +137,6 @@ class JobSpider(sc.Spider):
             sites.bestjobs.BestJobs(),
             sites.coopstaffing.CoopStaffing(),
             sites.jik.Jik(),
+            sites.r4kenya.R4kenya(),
+            sites.careerjet.CareerJet()
         ]

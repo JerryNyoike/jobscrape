@@ -44,8 +44,10 @@ class BestJobs(site.Site):
 
 	def get_header_details(self, spans, job):
 		job["salary"] = self.clean_text(spans[0])
-		job["town"] = self.clean_text(spans[1])
-		job["uploadDate"] = self.clean_text(spans[2])
+		if len(spans) > 1:
+			job["town"] = self.clean_text(spans[1])
+		if len(spans) > 2:
+			job["uploadDate"] = self.clean_text(spans[2])
 
 	def get_type(self, p, job):
 		p = self.clean_page(p)

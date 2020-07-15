@@ -3,17 +3,16 @@ from scrapper.items import Job
 from re import search, IGNORECASE
 
 
-class Template(site.Site):
+class NewJobs(site.Site):
 	
 	def __init__(self):
 		self.meta = {
-			"name": "Site name",
-			"url": "https://www.themuse.com/search?",
-			"domain": 'https://www.themuse.com/',
+			"name": "New Jobs",
+			"url": "https://www.kenyanz.com/jobs?",
+			"domain": 'https://www.kenyanz.com/',
 			"method": "GET",
-			"get_args": [{"job_location": "Nairobi Kenya"}],
-			"search_param": "keyword",
-			"link_selector": 'selector for follow link'
+			"search_param": "q",
+			"link_selector": '.row-fluid h2.h3 a::attr(href)'
 		}
 		super().__init__(self.meta)
 
@@ -23,7 +22,7 @@ class Template(site.Site):
 		job["ID"] = 1
 		job["website"]= self.meta[0]["domain"]
 		job["url"] = response.url
-		job["jobTitle"] = response.css('selector::text').get()
+		job["jobTitle"] = response.css('h1.h2::text').get()
 		job["jobType"] = response.css('selector::text').get()
 		job["positionLevel"] = response.css('selector::text').get()
 		job["positions"] = response.css('selector::text').get()
