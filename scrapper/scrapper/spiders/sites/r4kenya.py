@@ -50,7 +50,7 @@ class R4kenya(site.Site):
 		job["country"] = "Kenya"
 		self.get_header_details(response.css('article header span::text').getall(), job)
 
-		titles = response.css('.content strong::text').getall()
+		titles = response.xpath('//h3/text() | //strong /text() | //bold/text()').getall()
 		divs = response.css('.content *::text').getall()
 		self.get_description(titles, divs, job)
 		return job	
