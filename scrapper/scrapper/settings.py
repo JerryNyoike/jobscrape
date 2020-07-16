@@ -13,6 +13,7 @@ SPIDER_MODULES = ['scrapper.spiders']
 NEWSPIDER_MODULE = 'scrapper.spiders'
 
 ITEM_PIPELINES = {
+    'scrapper.pipelines.InvalidEntryPipeline': 50,
     'scrapper.pipelines.CsvWriterPipeline': 100
 }
 
