@@ -33,7 +33,6 @@ class CareerJet(site.Site):
 				"titles": "Salary, Remuneration"
 			}
 		]
-	
 		super().__init__(self.meta)
 
 
@@ -54,7 +53,7 @@ class CareerJet(site.Site):
 		self.get_tagged_details(response.css('header .tags li span::text').getall(), job)
 
 		divs = response.css('.content *::text').getall()
-		titles = response.css('.content b::text').getall()
+		titles = response.xpath('//h3/text() | //strong /text() | //bold/text()').getall()
 		self.get_description(titles, divs, job)
 		return job	
 
