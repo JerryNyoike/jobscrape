@@ -12,6 +12,7 @@ class CareerJet(site.Site):
 			"domain": 'https://www.careerjet.co.ke/',
 			"method": "GET",
 			"search_param": "s",
+			"get_params": {"l": "Kenya"},
 			"link_selector": 'article.job::attr(data-url)'
 		}
 	

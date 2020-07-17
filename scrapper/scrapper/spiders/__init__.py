@@ -1,11 +1,84 @@
 from logging import info
 from . import sites
-from . import config
 import scrapy as sc
 from re import search
 from scrapper.items import Job
 from scrapy.loader import ItemLoader
 
+keywords = [
+    "Software Engineer",
+    "Tech Support Engineer",
+    "DevOps Engineer",
+    "Test Engineer",
+    "Network Security Engineer",
+    "Network Engineer",
+    "Computer Hardware",
+    "Program Engineer",
+    "Computer Scientist",
+    "Digital Business Manager",
+    "IT Specialist",
+    "Systems Analyst",
+    "Business Systems Analyst",
+    "Programmer",
+    "Coder",
+    "Network Architect",
+    "Information Security Analyst",
+    "Programmer Analyst",
+    "Systems Security Advisor",
+    "Business Intelligence Analyst",
+    "Application Developer",
+    "Systems Developer",
+    "Assistant Systems Developer",
+    "Backend Developer",
+    "Frontend Developer",
+    "Software Developer",
+    "Mobile Applications Developer",
+    "Program Developer",
+    "Web Developer",
+    "Product Developer",
+    "Game Developer",
+    "Chief Technical Officer",
+    "Chief Information Officer",
+    "Software Project Manager",
+    "Head of e-commerce",
+    "Director of Digital",
+    "Director of e-commerce",
+    "Data Analyst",
+    "Data Engineer",
+    "Data Scientist",
+    "Data Expert",
+    "SEO Analyst",
+    "Data Miner",
+    "Database Administrator",
+    "Marketing Strategist",
+    "Graphic Designer",
+    "UX Designer",
+    "Digital Experience Manager",
+    "Digital Copywriter",
+    "New Media Manager",
+    "New Media Officer",
+    "Webmaster",
+    "UX Researcher",
+    "Video Creator",
+    "Creative Strategist",
+    "Creative Associate",
+    "Communications Associate",
+    "Social Media Associate",
+    "Social Media Influencer",
+    "Social Media Specialist",
+    "Content Strategist",
+    "Social Media guru",
+    "Evangelist",
+    "Social Media Manager",
+    "Community Manager",
+    "Social Media Officer",
+    "Content Manager",
+    "Chief Digital Marketing",
+    "Senior Art Director",
+    "Chief Creative",
+    "Chief Strategist",
+    "Digital Marketing Executive",
+]
 
 class JobSpider(sc.Spider):
     name = "jobs"
@@ -14,7 +87,7 @@ class JobSpider(sc.Spider):
         '''This function iterates over a list of site objects to find links to job pages'''
         self.sites = self.get_sites()
         for site in self.sites:
-            start_urls = config.createUrls(site.meta["base_url"], site.meta["search_param"])
+            start_urls = site.createUrls(site.meta["base_url"], site.meta["search_param"], keywords)
             for url in start_urls:
                 yield sc.Request(url=url, callback=self.parse_sites, cb_kwargs=dict(site=site, meta=site.meta))
 
@@ -58,6 +131,6 @@ class JobSpider(sc.Spider):
             sites.brightermonday.BrighterMonday(),
             sites.jiji.Jiji(),
             sites.bestjobs.BestJobs(),
-            sites.coopstaffing.CoopStaffing()
+            sites.coopstaffing.CoopStaffing(),
             sites.jik.Jik(),
         ]
