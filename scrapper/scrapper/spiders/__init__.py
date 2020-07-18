@@ -95,6 +95,7 @@ class JobSpider(sc.Spider):
             for url in start_urls:
                 yield sc.Request(url=url, callback=self.parse_sites, cb_kwargs=dict(site=site, meta=site.meta))
 
+
     def parse_sites(self, response, site, meta):
         '''This functions iterates over a list of links to jobs on a site
         The response from the page is passed to the parse function for processing
@@ -116,9 +117,11 @@ class JobSpider(sc.Spider):
                 else:
                     yield sc.Request(str(meta["domain"] + next_page), self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
     
+
     @classmethod
     def url_is_full(self, url):
         return search(r"^https.?|^http.?", url)
+
 
     def parse(self, response, site):
         '''This function passes the response from a job page to the parse 
@@ -128,6 +131,7 @@ class JobSpider(sc.Spider):
         '''
         job = site.parse(response)
         yield job
+
 
     def get_sites(self):
         '''This function returns a list of site objects representing sites to be scrapped'''
