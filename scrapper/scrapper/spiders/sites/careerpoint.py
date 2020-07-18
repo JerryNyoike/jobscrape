@@ -11,14 +11,14 @@ class CareerPoint(site.Site):
 
     def __init__(self):
         self.meta = {
-                "name": "Career Point",
-                "base_url": "https://careerpointkenya.co.ke/?",
-                "domain": "https://careerpointkenya.co.ke/",
-                "method": "GET",
-                "search_param": "s",
-                "link_selector": "h2.entry-title a::attr(href)",
-                "next_page_selector": "div.pagination a.pagination-next::attr(href)",
-                }
+            "name": "Career Point",
+            "base_url": "https://careerpointkenya.co.ke/?",
+            "domain": "https://careerpointkenya.co.ke/",
+            "method": "GET",
+            "search_param": "s",
+            "link_selector": "article.post h2 a::attr(href)",
+            "next_page_selector": "div.pagination a.next::attr(href)",
+        }
         super().__init__(self.meta)
 
 
