@@ -56,9 +56,8 @@ class R4kenya(site.Site):
 		titles = self.clean_page(titles)
 		text = self.clean_text(' '.join(divs))
 
-		contact_search = search(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", text, IGNORECASE)
-		if contact_search:
-			job["contact"] = contact_search.group(0)	
+		self.get_contacts(text, job)
+		self.get_deadline(text, job)
 
 		deadline_search = search(r"Deadline:(.+?)(\d{4})", text, IGNORECASE)
 		if deadline_search:

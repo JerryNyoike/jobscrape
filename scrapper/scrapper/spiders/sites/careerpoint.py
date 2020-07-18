@@ -51,13 +51,13 @@ class CareerPoint(site.Site):
         job["company"] = title.split('Job')[-1]
         job["jobType"] = "Fulltime"
         job["positionLevel"] = position
-        job["uploadDate"] = ""
-        job["year"] = ""
-        job["deadline"] = ""
+        job["uploadDate"] = "N/A"
+        job["year"] = "2020"
+        job["deadline"] = "N/A"
         job["town"] = location
         job["country"] = "Kenya"
         job["contact"] = contact
-        job["readvertised"] = "N"
+        job["readvertised"] = "N/A"
         job["technology"] = resp
         job["description"] = desc
         job["employmentType"] = "Fulltime"
