@@ -38,13 +38,13 @@ class InvalidEntryPipeline:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         values = adapter.asdict()
-        empty = lambda field : field is None
+        empty = lambda field : not field
         empty_fields = filter(empty, list(values.values()))
-        
-        print("\n\n*****************")
-        print(len(list(empty_fields)))
-        print("*****************\n\n")
-        if len(list(empty_fields)) > 15:
+
+        if len(list(empty_fields)) > 10:
+            print("\n\n***************")
+            print("Dropped")
+            print("******************\n\n")
             raise DropItem("Too many empty values found.")
 
         return item
