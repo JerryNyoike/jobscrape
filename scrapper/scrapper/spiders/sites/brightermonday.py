@@ -28,10 +28,7 @@ class BrighterMonday(site.Site):
 		jobType = self.clean_text(response.css('.job-header__work-type::text').get())
 		job["jobType"] = jobType
 		job["employmentType"] = jobType
-		job["uploadDate"] = "N/A"
-		job["year"] = "N/A"
-		job["deadline"] = "N/A"
-		job["contact"] = "N/A"
+		job["year"] = "2020"
 		job["readvertised"] = "N/A"
 		job["salary"] = self.clean_text(response.css('.job-header__salary::text').get())
 		job["country"] = "Kenya"
@@ -78,5 +75,14 @@ class BrighterMonday(site.Site):
 				"fields": ["requirements", "skills"]
 			}
 		]
+
+		contact_search = search(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", text, IGNORECASE)
+		if contact_search:
+			job["contact"] = contact_search.group(0)	
+
+		deadline_search = search(r"(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|Dec)))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9]|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})", text, IGNORECASE)
+		if deadline_search:
+			job["deadline"] = deadline_search.group(0)
+			job["uploadDate"] = deadline_search.group(0)
 
 		self.regex_search(text, re_list, job)
