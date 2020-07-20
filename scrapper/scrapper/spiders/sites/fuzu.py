@@ -26,13 +26,19 @@ class Fuzu(site.Site):
     def parse(self, response):
         job = Job()
 
-        job["title"] = response.xpath('//div[@class="flex-full"]/h3[contains(@class, "mt-500")]/text()').get()
+        job["jobTitle"] = response.xpath('//div[@class="flex-full"]/h3[contains(@class, "mt-500")]/text()').get()
         location = response.xpath('//div[contains(@class, "mb-500")]/text()').get()
-        job["country"] = location.split(',')[-1].strip()
-        job["town"] = location.split(',')[0].strip()
+        if location is not None:
+            job["country"] = location.split(',')[-1].strip()
+            job["town"] = location.split(',')[0].strip()
         job["company"] = response.xpath('//div[contains(@class, "mb-500")]/a/text()').get()
         job["salary"] = response.xpath('//div[@class="flex-full"]/p[1]/span[contains(text(), "Salary")]/following::span/text()').get()
-        job["employmentType"] = response.xpath('//div[@class="flex-full"]/p[1]/text()').getall()[1].strip()
+        employmentType = response.xpath('//div[@class="flex-full"]/p[1]/text()').getall()
+        print("------------------")
+        print(f"{employmentType}")
+        print("------------------")
+        if len(employmentType) > 0:
+            job["employmentType"] = employmentType[1].strip()
 
         return job
 
