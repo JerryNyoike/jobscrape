@@ -16,8 +16,8 @@ class CareerPoint(site.Site):
             "domain": "https://careerpointkenya.co.ke/",
             "method": "GET",
             "search_param": "s",
-            "link_selector": "article.post h2 a::attr(href)",
-            "next_page_selector": "div.pagination a.next::attr(href)",
+            "link_selector": "h2.entry-title a::attr(href)",
+            "next_page_selector": "div.pagination a.pagination-next::attr(href)",
         }
         super().__init__(self.meta)
 
