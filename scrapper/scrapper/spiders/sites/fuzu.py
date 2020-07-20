@@ -26,11 +26,20 @@ class Fuzu(site.Site):
     def parse(self, response):
         job = Job()
 
+        job["title"] = response.xpath('//div[@class="flex-full"]/h3[contains(@class, "mt-500")]/text()').get()
+        location = response.xpath('//div[contains(@class, "mb-500")]/text()').get()
+        job["country"] = location.split(',')[-1].strip()
+        job["town"] = location.split(',')[0].strip()
+        job["company"] = response.xpath('//div[contains(@class, "mb-500")]/a/text()').get()
+        job["salary"] = response.xpath('//div[@class="flex-full"]/p[1]/span[contains(text(), "Salary")]/following::span/text()').get()
+        job["employmentType"] = response.xpath('//div[@class="flex-full"]/p[1]/text()').getall()[1].strip()
+
         return job
 
 
     def extract_links(self, response):
-        ''' Make a request to the API and pick out the job urls
+        ''' 
+        Make a request to the API and pick out the job urls
         '''
         get_urls = lambda data_item : data_item.get("url")
         data = json.loads(response.body)
