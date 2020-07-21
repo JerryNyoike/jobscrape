@@ -91,11 +91,11 @@ class JobSpider(sc.Spider):
             if 'get_args' in site.meta:
                 get_args = site.meta['get_args']
 
-            start_urls = site.createUrls(site.meta["base_url"], site.meta["search_param"], keywords, get_args)
-            if site.meta.get("link_selector") is "":
+            start_urls = list()
+            if site.meta.get("link_selector") == "":
                 start_urls = site.createUrls(site.meta["api"], site.meta["searchParam"], keywords, {"page": "0"})
             else:
-                start_urls = site.createUrls(site.meta["base_url"], site.meta["searchParam"], keywords)
+                start_urls = site.createUrls(site.meta["base_url"], site.meta["search_param"], keywords, get_args)
 
             for url in start_urls:
                 yield sc.Request(url=url, callback=self.parse_sites, cb_kwargs=dict(site=site, meta=site.meta))
@@ -108,7 +108,7 @@ class JobSpider(sc.Spider):
         site: object representing the site being scrapped
         meta: metadata on the site
         '''
-        if meta["link_selector"] is "":
+        if meta["link_selector"] == "":
             job_links = site.extract_links(response)
             if job_links is not None:
                 for link in job_links:
@@ -122,7 +122,7 @@ class JobSpider(sc.Spider):
                 else:
                     yield sc.Request(href, self.parse, cb_kwargs=dict(site=site))
         
-        if 'next_page_selector' in meta and meta['next_page_selector'] is not "":
+        if 'next_page_selector' in meta and meta['next_page_selector'] != "":
             next_page = response.css(meta['next_page_selector']).get()
             if next_page:
                 if self.url_is_full(next_page):
@@ -152,16 +152,16 @@ class JobSpider(sc.Spider):
     def get_sites(self):
         '''This function returns a list of site objects representing sites to be scrapped'''
         return [
-            sites.brightermonday.BrighterMonday(),
-            sites.jiji.Jiji(),
-            sites.bestjobs.BestJobs(),
-            sites.coopstaffing.CoopStaffing(),
-            sites.jik.Jik(),
-            sites.r4kenya.R4kenya(),
-            sites.careerjet.CareerJet(),
-            sites.careerpoint.CareerPoint(),
-            sites.newjobs.NewJobs(),
-            sites.dailyjobsik.DailyJobsIK(),
-            sites.emploi.Emploi()
+            # sites.brightermonday.BrighterMonday(),
+            # sites.jiji.Jiji(),
+            # sites.bestjobs.BestJobs(),
+            # sites.coopstaffing.CoopStaffing(),
+            # sites.jik.Jik(),
+            # sites.r4kenya.R4kenya(),
+            # sites.careerjet.CareerJet(),
+            # sites.careerpoint.CareerPoint(),
+            # sites.newjobs.NewJobs(),
+            # sites.dailyjobsik.DailyJobsIK(),
+            # sites.emploi.Emploi(),
             sites.fuzu.Fuzu(),
         ]
