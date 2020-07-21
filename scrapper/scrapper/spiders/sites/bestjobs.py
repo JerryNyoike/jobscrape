@@ -29,8 +29,7 @@ class BestJobs(site.Site):
 		job["technology"] = jobTitle
 		job["industry"] = jobTitle
 		job["positionLevel"] = "N/A"
-		job["deadline"] = "N/A"
-		job["year"] = "N/A"
+		job["year"] = "2020"
 		job["readvertised"] = "N/A"
 		job["company"] = self.clean_text(response.css('h2::text').get())
 		job["skills"] = response.css('selector::text').get()
@@ -44,8 +43,10 @@ class BestJobs(site.Site):
 
 	def get_header_details(self, spans, job):
 		job["salary"] = self.clean_text(spans[0])
-		job["town"] = self.clean_text(spans[1])
-		job["uploadDate"] = self.clean_text(spans[2])
+		if len(spans) > 1:
+			job["town"] = self.clean_text(spans[1])
+		if len(spans) > 2:
+			job["uploadDate"] = self.clean_text(spans[2])
 
 	def get_type(self, p, job):
 		p = self.clean_page(p)
@@ -82,6 +83,9 @@ class BestJobs(site.Site):
 			}
 		]
 
+		self.get_contacts(text, job)
+		self.get_deadline(text, job)
+		
 		self.regex_search(text, re_list, job)
 
 

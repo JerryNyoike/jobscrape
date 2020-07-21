@@ -8,7 +8,7 @@ class Template(site.Site):
 	def __init__(self):
 		self.meta = {
 			"name": "Site name",
-			"url": "site url",
+			"base_url": "site url",
 			"domain": 'site domain',
 			"method": "request method",
 			"search_param": "identifier",
@@ -20,7 +20,7 @@ class Template(site.Site):
 	def parse(self, response):
 		job = Job()
 		job["ID"] = 1
-		job["website"]= self.meta[0]["domain"]
+		job["website"]= self.meta["domain"]
 		job["url"] = response.url
 		job["jobTitle"] = response.css('selector::text').get()
 		job["jobType"] = response.css('selector::text').get()

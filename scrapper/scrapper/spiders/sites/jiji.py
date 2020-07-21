@@ -77,4 +77,7 @@ class Jiji(site.Site):
 			}
 		]
 
+		self.get_contacts(text, job)
+		self.get_deadline(text, job)
+
 		self.regex_search(text, re_list, job)
