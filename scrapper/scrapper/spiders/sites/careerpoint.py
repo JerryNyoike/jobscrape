@@ -11,14 +11,14 @@ class CareerPoint(site.Site):
 
     def __init__(self):
         self.meta = {
-            "name": "Career Point",
-            "base_url": "https://careerpointkenya.co.ke/?",
-            "domain": "https://careerpointkenya.co.ke/",
-            "method": "GET",
-            "search_param": "s",
-            "link_selector": "article.post h2 a::attr(href)",
-            "next_page_selector": "div.pagination a.next::attr(href)",
-        }
+                "name": "Career Point",
+                "base_url": "https://careerpointkenya.co.ke/?",
+                "domain": "https://careerpointkenya.co.ke/",
+                "method": "GET",
+                "search_param": "s",
+                "link_selector": "h2.entry-title a::attr(href)",
+                "next_page_selector": "div.pagination a.pagination-next::attr(href)",
+                }
         super().__init__(self.meta)
 
 
@@ -51,13 +51,13 @@ class CareerPoint(site.Site):
         job["company"] = title.split('Job')[-1]
         job["jobType"] = "Fulltime"
         job["positionLevel"] = position
-        job["uploadDate"] = "N/A"
-        job["year"] = "2020"
-        job["deadline"] = "N/A"
+        job["uploadDate"] = ""
+        job["year"] = ""
+        job["deadline"] = ""
         job["town"] = location
         job["country"] = "Kenya"
         job["contact"] = contact
-        job["readvertised"] = "N/A"
+        job["readvertised"] = "N"
         job["technology"] = resp
         job["description"] = desc
         job["employmentType"] = "Fulltime"

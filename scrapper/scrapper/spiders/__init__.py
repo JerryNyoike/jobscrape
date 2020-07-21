@@ -91,7 +91,12 @@ class JobSpider(sc.Spider):
             if 'get_args' in site.meta:
                 get_args = site.meta['get_args']
 
-            start_urls = site.createUrls(site.meta["base_url"], site.meta["search_param"], keywords, get_args)
+            start_urls = list()
+            if site.meta.get("link_selector") is "":
+                start_urls = site.createUrls(site.meta["api"], site.meta["searchParam"], keywords, {"page": "0"})
+            else:
+                start_urls = site.createUrls(site.meta["base_url"], site.meta["search_param"], keywords, get_args)
+
             for url in start_urls:
                 yield sc.Request(url=url, callback=self.parse_sites, cb_kwargs=dict(site=site, meta=site.meta))
 
@@ -103,19 +108,30 @@ class JobSpider(sc.Spider):
         site: object representing the site being scrapped
         meta: metadata on the site
         '''
-        for href in response.css(meta["link_selector"]).getall():
-            if not self.url_is_full(href):
-                yield sc.Request(str(meta["domain"] + href), self.parse, cb_kwargs=dict(site=site))
+        if meta["link_selector"] is "":
+            job_links = site.extract_links(response)
+            if job_links is not None:
+                for link in job_links:
+                    yield sc.Request(link, self.parse, cb_kwargs=dict(site=site))
             else:
-                yield sc.Request(href, self.parse, cb_kwargs=dict(site=site))
+                return
+        else:
+            for href in response.css(meta["link_selector"]).getall():
+                if not self.url_is_full(href):
+                    yield sc.Request(str(meta["domain"] + href), self.parse, cb_kwargs=dict(site=site))
+                else:
+                    yield sc.Request(href, self.parse, cb_kwargs=dict(site=site))
         
-        if 'next_page_selector' in meta:
+        if 'next_page_selector' in meta and meta['next_page_selector'] is not "":
             next_page = response.css(meta['next_page_selector']).get()
             if next_page:
                 if self.url_is_full(next_page):
                     yield sc.Request(url=next_page, callback=self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
                 else:
                     yield sc.Request(str(meta["domain"] + next_page), self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
+        else:
+            next_page = site.next_page_url(response.url)
+            yield sc.Request(next_page, self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
     
 
     @classmethod
@@ -146,5 +162,6 @@ class JobSpider(sc.Spider):
             sites.careerpoint.CareerPoint(),
             sites.newjobs.NewJobs(),
             sites.dailyjobsik.DailyJobsIK(),
-            sites.emploi.Emploi()
+            sites.emploi.Emploi(),
+            sites.fuzu.Fuzu()
         ]

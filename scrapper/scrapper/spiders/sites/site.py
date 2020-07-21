@@ -1,6 +1,8 @@
 from logging import info
 from re import search, findall, sub, escape, IGNORECASE
 from urllib.parse import urlencode
+from re import search, sub, IGNORECASE
+from urllib.parse import urlencode, quote
 
 class Site(object):
 
@@ -53,7 +55,7 @@ class Site(object):
 		'''
 		createQueryPairs = lambda keyword : {identifier: keyword}
 
-		makeUrl = lambda keywordPair : baseUrl+urlencode(keywordPair)
+		makeUrl = lambda keywordPair : baseUrl+urlencode(keywordPair, quote_via=quote)
 
 		params = list(map(createQueryPairs, searchWords))
 
