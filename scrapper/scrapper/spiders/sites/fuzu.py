@@ -25,7 +25,13 @@ class Fuzu(site.Site):
 
     def parse(self, response):
         job = Job()
-
+        job["ID"] = 1
+        job["website"]= self.meta["domain"]
+        job["url"] = response.url
+        job["readvertised"] = "N/A"
+        job["year"] = "2020"
+        job["positionLevel"] = "N/A"
+        job["positions"] = 1
         job["jobTitle"] = response.xpath('//div[@class="flex-full"]/h3[contains(@class, "mt-500")]/text()').get()
         location = response.xpath('//div[contains(@class, "mb-500")]/text()').get()
         if location is not None:
@@ -34,11 +40,13 @@ class Fuzu(site.Site):
         job["company"] = response.xpath('//div[contains(@class, "mb-500")]/a/text()').get()
         job["salary"] = response.xpath('//div[@class="flex-full"]/p[1]/span[contains(text(), "Salary")]/following::span/text()').get()
         employmentType = response.xpath('//div[@class="flex-full"]/p[1]/text()').getall()
-        print("------------------")
-        print(f"{employmentType}")
-        print("------------------")
         if len(employmentType) > 0:
             job["employmentType"] = employmentType[1].strip()
+            job["jobType"] = employmentType[1].strip()
+
+        divs = response.css('div.row-flex div.border-grey-sm *::text').getall()
+        titles = response.xpath('//h4/text() | //strong /text() | //b/text()').getall()
+        self.get_description(titles, divs, job)
 
         return job
 
@@ -60,7 +68,19 @@ class Fuzu(site.Site):
         return url.replace(url[-1], str(int(url[-1])+1))
 
     def createUrls(self, baseUrl, identifier, searchWords, params):
-        urls = super().createUrls(baseUrl, identifier, searchWords)
+        urls = super().createUrls(baseUrl, identifier, searchWords, params)
         add_page = lambda link : link + '&' + urlencode(params, quote_via=quote)
         final_urls = list(map(add_page, urls))
         return final_urls
+
+    def get_description(self, titles, divs, job):
+        divs = self.clean_page(divs)
+        titles = self.clean_page(titles)
+        text = self.clean_text(' '.join(divs))
+
+        self.get_contacts(text, job)
+        self.get_deadline(text, job)
+
+        re_list = self.get_search_words(titles)
+
+        self.regex_search(text, re_list, job)
