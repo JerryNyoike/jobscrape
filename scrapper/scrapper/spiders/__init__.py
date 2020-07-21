@@ -92,7 +92,7 @@ class JobSpider(sc.Spider):
                 get_args = site.meta['get_args']
 
             start_urls = list()
-            if site.meta.get("link_selector") is "":
+            if site.meta.get("link_selector") == "":
                 start_urls = site.createUrls(site.meta["api"], site.meta["searchParam"], keywords, {"page": "0"})
             else:
                 start_urls = site.createUrls(site.meta["base_url"], site.meta["search_param"], keywords, get_args)
@@ -108,7 +108,7 @@ class JobSpider(sc.Spider):
         site: object representing the site being scrapped
         meta: metadata on the site
         '''
-        if meta["link_selector"] is "":
+        if meta["link_selector"] == "":
             job_links = site.extract_links(response)
             if job_links is not None:
                 for link in job_links:
@@ -122,7 +122,7 @@ class JobSpider(sc.Spider):
                 else:
                     yield sc.Request(href, self.parse, cb_kwargs=dict(site=site))
         
-        if 'next_page_selector' in meta and meta['next_page_selector'] is not "":
+        if 'next_page_selector' in meta and meta['next_page_selector'] != "":
             next_page = response.css(meta['next_page_selector']).get()
             if next_page:
                 if self.url_is_full(next_page):
