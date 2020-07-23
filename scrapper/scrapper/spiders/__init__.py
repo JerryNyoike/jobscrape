@@ -152,16 +152,18 @@ class JobSpider(sc.Spider):
     def get_sites(self):
         '''This function returns a list of site objects representing sites to be scrapped'''
         return [
-            sites.brightermonday.BrighterMonday(),
-            sites.jiji.Jiji(),
-            sites.bestjobs.BestJobs(),
-            sites.coopstaffing.CoopStaffing(),
-            sites.jik.Jik(),
-            sites.r4kenya.R4kenya(),
-            sites.careerjet.CareerJet(),
-            sites.careerpoint.CareerPoint(),
-            sites.newjobs.NewJobs(),
-            sites.dailyjobsik.DailyJobsIK(),
-            sites.emploi.Emploi(),
-            sites.fuzu.Fuzu()
+            # sites.brightermonday.BrighterMonday(),
+            # sites.jiji.Jiji(),
+            # sites.bestjobs.BestJobs(),
+            # sites.coopstaffing.CoopStaffing(),
+            # sites.jik.Jik(),
+            # sites.r4kenya.R4kenya(),
+            # sites.careerjet.CareerJet(),
+            # sites.careerpoint.CareerPoint(),
+            # sites.newjobs.NewJobs(),
+            # sites.dailyjobsik.DailyJobsIK(),
+            # sites.emploi.Emploi(),
+            # sites.fuzu.Fuzu(),
+            # sites.myjobmag.MyJobMag(),
+            sites.summitrecruitment.SummitRecruitment()
         ]
