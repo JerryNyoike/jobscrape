@@ -6,6 +6,7 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from scrapy.loader import ItemLoader
 import csv
 import os
 from scrapy.exceptions import DropItem
@@ -17,21 +18,29 @@ class CsvWriterPipeline:
         for entry in os.listdir():
             if entry.find('.csv') != -1:
                 outputFiles+=1
-
+        
+        self.items = list()
         self.file = open(f"KEN Webscraping Job Posts-v{outputFiles}.csv", 'w')
 
     def close_spider(self, spider):
+        if self.items is not []:
+            for item in self.items:
+                adapter = ItemAdapter(item)
+                columns = adapter.field_names()
+                writer = csv.DictWriter(self.file, fieldnames=columns)
+
+                if self.file.tell() == 0:
+                    writer.writeheader()
+                writer.writerow(adapter.asdict())
+
         self.file.close()
 
     def process_item(self, item, spider):
-        if item:
-            adapter = ItemAdapter(item)
-            columns = adapter.field_names()
-            writer = csv.DictWriter(self.file, fieldnames=columns)
-
-            if self.file.tell() == 0:
-                writer.writeheader()
-            writer.writerow(adapter.asdict())
+        if item in self.items:
+            self.items[self.items.index(item)]['readvertised'] = 'Y'
+        else:
+            item['ID'] = len(self.items) + 1
+            self.items.append(item)
 
 
 class InvalidEntryPipeline:
