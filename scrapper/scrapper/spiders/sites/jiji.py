@@ -21,7 +21,7 @@ class Jiji(site.Site):
 	def parse(self, response):
 		job = Job()
 		job["ID"]= 1
-		job["website"] = self.meta["domain"]
+		job["website"] = self.meta["name"]
 		job["url"] = response.url
 		title = self.clean_text(response.css('.b-advert-title-inner::text').get())
 		job["jobTitle"] = title

@@ -2,6 +2,7 @@ from logging import info
 from re import search, findall, sub, escape, IGNORECASE
 from urllib.parse import urlencode, quote
 
+
 class Site(object):
 
 	'''A Base class to define class variables for different site subclasses'''
@@ -19,7 +20,7 @@ class Site(object):
 			},
 			{
 				"fields": ["skills"],
-				"titles": "Qualifications, Desired Skills, Desirable Qualities, Nice, Competencies, Experience"
+				"titles": "Qualifications, Personal Attributes, Desired Skills, Desirable Qualities, Nice, Competencies, Experience"
 			},
 			{
 				"fields": ["responsibilities"],
