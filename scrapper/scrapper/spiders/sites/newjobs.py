@@ -21,7 +21,7 @@ class NewJobs(site.Site):
 
 	def parse(self, response):
 		job = Job()
-		job["ID"] = 1
+
 		job["website"]= self.meta["domain"]
 		job["url"] = response.url
 		job["jobTitle"] = response.xpath('//h1[@class="entry-title"]/text()').get()

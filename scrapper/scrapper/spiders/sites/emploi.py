@@ -19,7 +19,7 @@ class Emploi(site.Site):
 
 	def parse(self, response):
 		job = Job()
-		job["ID"] = 1
+
 		job["website"]= self.meta["domain"]
 		job["url"] = response.url
 		job["jobTitle"] = response.css('#postJob h2::text').get()

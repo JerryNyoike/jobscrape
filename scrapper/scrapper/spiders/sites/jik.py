@@ -62,7 +62,6 @@ class Jik(site.Site):
 
         contact = response.xpath('//div[@class="links"]/a[@class="view-job-link"]/@href').get()
 
-        job["ID"] = 1
         job["website"] = self.meta["domain"]
         job["url"] = response.url
         job["jobTitle"] = title

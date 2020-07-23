@@ -21,7 +21,7 @@ class BestJobs(site.Site):
 
 	def parse(self, response):
 		job = Job()
-		job["ID"] = 1
+
 		job["website"]= self.meta["domain"]
 		job["url"] = response.url
 		jobTitle = self.clean_text(response.css('h1::text').get())

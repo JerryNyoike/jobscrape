@@ -21,7 +21,7 @@ class DailyJobsIK(site.Site):
 
 	def parse(self, response):
 		job = Job()
-		job["ID"] = 1
+
 		job["website"]= self.meta["domain"]
 		job["url"] = response.url
 		job["jobTitle"] = response.css('article.post h2 a::text').get()
