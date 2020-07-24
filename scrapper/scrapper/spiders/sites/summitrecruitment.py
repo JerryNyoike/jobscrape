@@ -28,7 +28,7 @@ class SummitRecruitment(site.Site):
 		job["positionLevel"] = response.xpath("//div[@class='single-job-meta']/ul/li[span[@class='job-meta-title']/text() = 'Career Level:']/span[@class='job-meta-content']/text()").get()
 		job["positions"] = 1
 		job["uploadDate"] = "N/A"
-		job["year"] = response.xpath("//div[@class='single-job-meta']/ul/li[span[@class='job-meta-title']/text() = 'Deadline:']/span[@class='job-meta-content']/text()").get().split(" ")[-1]
+		job["year"] = response.xpath("//div[@class='single-job-meta']/ul/li[span[@class='job-meta-title']/text() = 'Deadline:']/span[@class='job-meta-content']/text()").get().strip().split(" ")[-1]
 		job["deadline"] = response.xpath("//div[@class='single-job-meta']/ul/li[span[@class='job-meta-title']/text() = 'Deadline:']/span[@class='job-meta-content']/text()").get()
 		job["town"] = response.xpath("//div[@class='single-job-meta']/ul/li[span[@class='job-meta-title']/text() = 'Location:']/span[@class='job-meta-content']/text()").get()
 		job["readvertised"] = "N/A"
@@ -64,5 +64,5 @@ class SummitRecruitment(site.Site):
 		searchWords : the words to search on the website
 		returns the urls for the searches in a list which can then be used by start_urls or start_requests in a spider
 		'''
-		makeUrl = lambda keyword : baseUrl + '-'.join(keyword.lower().split(" "))
+		makeUrl = lambda keyword : baseUrl + '-'.join(keyword.lower().split(" ")) + '/'
 		return list(map(makeUrl, searchWords))

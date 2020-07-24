@@ -28,7 +28,7 @@ class MyJobMag(site.Site):
 		job["positionLevel"] = "N/A"
 		job["positions"] = 1
 		job["uploadDate"] = response.css('div#posted-date::text').get()
-		job["year"] = response.css('div#posted-date::text').get().split(",")[-1]
+		job["year"] = response.css('div#posted-date::text').get().strip().split(",")[-1]
 		job["deadline"] = response.css('div.read-date-sec-li:nth-child(2)::text').get()
 		job["town"] = response.xpath("//ul[@class='job-key-info']/li[span[@class='jkey-title']/text() = 'Location']/span[@class='jkey-info']/a/text()").get()
 		job["readvertised"] = "N/A"
