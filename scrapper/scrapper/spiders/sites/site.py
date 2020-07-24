@@ -127,7 +127,7 @@ class Site(object):
 		'''This functions takes a list of job fields that share data and puts text in all of them'''
 		for field in fields:
 			if (field in job) and job[field]:
-				job[field] = str(job[field] + text)
+				job[field] = str(job[field] + ", " + text)
 			else:
 				job[field] = text
 
@@ -141,6 +141,7 @@ class Site(object):
 			text = text.strip()
 			text = text.replace('\n', '')
 			text = sub(r"^[^a-zA-Z0-9]+$", '', text)
+			text = sub(r"[!#$%^&*()\":{}|<>]+?", '', text)
 			text = sub(r".*?(<.*?>)", '', text)
 			text = sub(r":\xa0", '', text)
 			text = sub(r"[\s]{2,}", ' ', text)
