@@ -103,9 +103,6 @@ class Site(object):
 		for regex in re_list:	
 			search_result = search(regex["re"], text, IGNORECASE)
 			if search_result:
-				print("\n\n*************")
-				print("Regex: " + regex["re"] + "\nResult: " + search_result.group(1))
-				print("*************\n\n")
 				self.populate_fields(regex["fields"], search_result.group(1), job)
 				text = text.replace(search_result.group(1), '')
 
