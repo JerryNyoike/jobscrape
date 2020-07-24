@@ -167,5 +167,6 @@ class JobSpider(sc.Spider):
             sites.myjobmag.MyJobMag(),
             sites.summitrecruitment.SummitRecruitment(),
             sites.sokoso.Sokoso(),
-            sites.jobweb.JobWeb()
+            sites.jobweb.JobWeb(),
+            sites.starclassifieds.StarClassifieds()
         ]
