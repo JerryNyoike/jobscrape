@@ -11,6 +11,14 @@ class Site(object):
 		self.meta = meta
 		self.search_words = [
 			{
+				"fields": ["company"],
+				"titles": "Company Name, Industry"
+			},
+			{
+				"fields": ["jobType", "employmentType"],
+				"titles": "Job Type, Employment Type"
+			},
+			{
 				"fields": ["description"],
 				"titles": "Description, Summary, Opportunity, Program Description, Details, Role, Overview"
 			},
@@ -28,19 +36,19 @@ class Site(object):
 			},
 			{
 				"fields": ["salary"],
-				"titles": "Salary, Remuneration, Salary Scale"
+				"titles": "Salary, Remuneration, Salary Scale, Compensation"
 			},
 			{
 				"fields": ["positionLevel", "technology", "industry"],
-				"titles": "Position"
+				"titles": "Position Level, Rank, Job Category, Industry, Technology"
 			},
 			{
 				"fields": ["town"],
-				"titles": "Location"
+				"titles": "Location, Situated, Town, City, Place, State"
 			},
 			{
 				"fields": ["deadline"],
-				"titles": "Deadline, Submitted By, Not later than, No later than, Later than"
+				"titles": "Deadline, Submitted By, Not later than, No later than, Later than, Valid Until"
 			}
 		]
 
@@ -72,6 +80,7 @@ class Site(object):
 		for search_word in self.search_words:
 			for i, title in enumerate(titles):
 				for word in title.split(' '):
+					word = sub(r"[^a-zA-Z0-9]", '', word)
 					if (len(word) >= 4) and (search(fr'{escape(word)}', search_word["titles"], IGNORECASE)):
 						next_title = ""
 						if (i + 1) < len(titles):
@@ -94,6 +103,9 @@ class Site(object):
 		for regex in re_list:	
 			search_result = search(regex["re"], text, IGNORECASE)
 			if search_result:
+				print("\n\n*************")
+				print("Regex: " + regex["re"] + "\nResult: " + search_result.group(1))
+				print("*************\n\n")
 				self.populate_fields(regex["fields"], search_result.group(1), job)
 				text = text.replace(search_result.group(1), '')
 
@@ -131,8 +143,9 @@ class Site(object):
 		if text:
 			text = text.strip()
 			text = text.replace('\n', '')
-			text = sub(r"^[^a-zA-Z0-9\s]+$", '', text)
+			text = sub(r"^[^a-zA-Z0-9]+$", '', text)
 			text = sub(r".*?(<.*?>)", '', text)
+			text = sub(r":\xa0", '', text)
 			text = sub(r"[\s]{2,}", ' ', text)
 		return text
 
@@ -152,3 +165,7 @@ class Site(object):
 		'''
 		not_empty = lambda div : not (not self.clean_text(div))
 		return list(filter(not_empty, divs))
+
+
+	def next_page_url(self, url):
+		return url.replace(url[-1], str(int(url[-1])+1))
