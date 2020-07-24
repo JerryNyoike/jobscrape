@@ -38,7 +38,7 @@ class SummitRecruitment(site.Site):
 		job["industry"] = response.css('h1.entry-title::text').get()
 		job["country"] = "Kenya"
 
-		titles = response.xpath('//strong /text() | //bold/text()').getall()
+		titles = response.xpath('//strong /text() | //b/text()').getall()
 		divs = response.css('div.entry-content *::text').getall()
 		self.get_description(titles, divs, job)
 		return job	

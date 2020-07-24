@@ -38,7 +38,7 @@ class MyJobMag(site.Site):
 		job["industry"] = response.css('li.job-industry a::text').get()
 		job["country"] = "Kenya"
 
-		titles = response.xpath('//strong /text() | //bold/text()').getall()
+		titles = response.xpath('//strong /text() | //b/text()').getall()
 		divs = response.css('#job-description-holder *::text').getall()
 		self.get_description(titles, divs, job)
 		return job	
