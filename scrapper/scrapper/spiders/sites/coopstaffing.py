@@ -51,7 +51,10 @@ class CoopStaffing(site.Site):
         company = jobMeta.xpath('//span[last()]/a/text()').get()
         applicationDetails = jobDetails.xpath('//p/span/strong[contains(text(), "How to Apply")]/ancestor::p/text()').getall()
         if applicationDetails:
-            deadline = ''.join([applicationDetails[-2], applicationDetails[-1]]).strip()
+            try:
+                deadline = ''.join([applicationDetails[-2], applicationDetails[-1]]).strip()
+            except IndexError:
+                deadline = "N/A"
         else:
             deadline = "N/A"
         industry = jobMeta.xpath('//p/span[@class="entry-tags"]/a/text()').get()
