@@ -60,7 +60,8 @@ class CoopStaffing(site.Site):
         positionLevel = 'N/A'
         technology = jobDetails.xpath('//p[3]/strong/text()').get()
 
-        job["website"] = self.meta["domain"]
+        job["ID"] = 1
+        job["website"] = self.meta["name"]
         job["url"] = response.url
         job["jobTitle"] = title
         job["jobType"] = jobType

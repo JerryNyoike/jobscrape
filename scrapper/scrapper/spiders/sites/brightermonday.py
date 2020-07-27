@@ -20,8 +20,8 @@ class BrighterMonday(site.Site):
 
 	def parse(self, response):
 		job = Job()
-
-		job["website"] = self.meta["domain"]
+		job["ID"] = 1
+		job["website"] = self.meta["name"]
 		job["url"] = response.url
 		job["jobTitle"] = self.clean_text(response.css('.job-header__title::text').get())
 		job["positions"] = 1

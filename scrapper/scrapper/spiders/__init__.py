@@ -163,5 +163,10 @@ class JobSpider(sc.Spider):
             sites.newjobs.NewJobs(),
             sites.dailyjobsik.DailyJobsIK(),
             sites.emploi.Emploi(),
-            sites.fuzu.Fuzu()
+            sites.fuzu.Fuzu(),
+            sites.myjobmag.MyJobMag(),
+            sites.summitrecruitment.SummitRecruitment(),
+            sites.sokoso.Sokoso(),
+            sites.jobweb.JobWeb(),
+            sites.starclassifieds.StarClassifieds()
         ]

@@ -44,7 +44,8 @@ class CareerPoint(site.Site):
         industry = response.xpath('//div[@class="row"]/p[1]/text()').get()
 
 
-        job["website"] = self.meta["domain"]
+        job["ID"] = 1
+        job["website"] = self.meta["name"]
         job["url"] = response.url
         job["jobTitle"] = title
         job["company"] = title.split('Job')[-1]
