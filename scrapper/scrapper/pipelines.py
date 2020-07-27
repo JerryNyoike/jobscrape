@@ -20,14 +20,14 @@ class CsvWriterPipeline:
                 outputFiles+=1
         
         self.items = list()
-        self.file = open(f"KEN Webscraping Job Posts-v{outputFiles}.csv", 'w')
+        self.file = open(f"KEN Webscraping Job Posts-v{outputFiles}.csv", 'w', newline='')
 
     def close_spider(self, spider):
         if self.items is not []:
             for item in self.items:
                 adapter = ItemAdapter(item)
                 columns = adapter.field_names()
-                writer = csv.DictWriter(self.file, fieldnames=columns)
+                writer = csv.DictWriter(self.file, fieldnames=columns, restval='', extrasaction='ignore', delimiter=',', quoting=csv.QUOTE_NONNUMERIC, quotechar="\"")
 
                 if self.file.tell() == 0:
                     writer.writeheader()
