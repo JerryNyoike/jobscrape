@@ -140,7 +140,6 @@ class Site(object):
 		if text:
 			text = text.strip()
 			text = text.replace('\n', '')
-			text = sub(r"^[^a-zA-Z0-9]+$", '', text)
 			text = sub(r"[!#$%^&*()\":{}|<>]+?", '', text)
 			text = sub(r".*?(<.*?>)", '', text)
 			text = sub(r":\xa0", '', text)
