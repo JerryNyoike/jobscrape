@@ -112,31 +112,41 @@ class JobSpider(sc.Spider):
             job_links = site.extract_links(response)
             if job_links is not None:
                 for link in job_links:
-                    yield sc.Request(link, self.parse, cb_kwargs=dict(site=site))
+                    yield sc.Request(url=self.get_full_url(meta["domain"], link), callback=self.parse, cb_kwargs=dict(site=site))
             else:
                 return
         else:
             for href in response.css(meta["link_selector"]).getall():
-                if not self.url_is_full(href):
-                    yield sc.Request(str(meta["domain"] + href), self.parse, cb_kwargs=dict(site=site))
-                else:
-                    yield sc.Request(href, self.parse, cb_kwargs=dict(site=site))
-        
+                yield sc.Request(url=self.get_full_url(meta["domain"], next_page), callback=self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
+                
         if 'next_page_selector' in meta and meta['next_page_selector'] != "":
             next_page = response.css(meta['next_page_selector']).get()
             if next_page:
-                if self.url_is_full(next_page):
-                    yield sc.Request(url=next_page, callback=self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
-                else:
-                    yield sc.Request(str(meta["domain"] + next_page), self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
-        else:
+                yield sc.Request(url=self.get_full_url(meta["domain"], next_page), callback=self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
+                
+        elif 'pages_param_key' in meta:
+            if meta["page_count"] < 11:                    
+                params = {meta["pages_param_key"]: meta["page_count"]}
+                next_page = site.next_page_url(response.url, params)
+                site.meta["page_count"] = int(site.meta["page_count"]) + 1
+                yield sc.Request(url=self.get_full_url(meta['domain'], next_page), callback=self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
+
+        elif 'api' in meta:
             next_page = site.next_page_url(response.url)
-            yield sc.Request(next_page, self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
+            yield sc.Request(url=self.get_full_url(meta['domain'], next_page), callback=self.parse_sites, cb_kwargs=dict(site=site, meta=meta))
+
     
 
     @classmethod
     def url_is_full(self, url):
         return search(r"^https.?|^http.?", url)
+
+
+    @classmethod    
+    def get_full_url(self, domain, url):
+        if not self.url_is_full(url):
+            return str(domain + url)
+        return url
 
 
     def parse(self, response, site):
