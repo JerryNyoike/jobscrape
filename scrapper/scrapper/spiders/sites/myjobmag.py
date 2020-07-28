@@ -13,7 +13,9 @@ class MyJobMag(site.Site):
 			"domain": 'https://www.myjobmag.co.ke',
 			"method": "GET",
 			"search_param": "q",
-			"link_selector": 'li.mag-b h2 a::attr(href)'
+			"link_selector": 'li.mag-b h2 a::attr(href)',
+			"pages_param_key": "currentpage",
+			"page_count": 2
 		}
 		super().__init__(self.meta)
 
