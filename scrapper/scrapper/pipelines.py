@@ -50,7 +50,7 @@ class InvalidEntryPipeline:
         empty = lambda field : not field
         empty_fields = filter(empty, list(values.values()))
 
-        if len(list(empty_fields)) > 10 or values.get("country") is not "Kenya":
+        if len(list(empty_fields)) > 12 or values.get("country") != "Kenya":
             print("\n\n***************")
             print("Dropped")
             print("******************\n\n")
