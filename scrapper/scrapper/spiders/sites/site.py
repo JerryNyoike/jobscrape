@@ -1,6 +1,6 @@
 from logging import info
 from re import search, findall, sub, escape, IGNORECASE
-from urllib.parse import urlencode, quote
+from urllib.parse import urlencode, quote, urlparse, parse_qsl, urlunparse
 
 
 class Site(object):
@@ -165,5 +165,15 @@ class Site(object):
 		return list(filter(not_empty, divs))
 
 
-	def next_page_url(self, url):
-		return url.replace(url[-1], str(int(url[-1])+1))
+	def next_page_url(self, url, params):
+		url_parse = urlparse(url)
+		query = url_parse.query
+		url_dict = dict(parse_qsl(query))
+		url_dict.update(params)
+		url_new_query = urlencode(url_dict)
+		url_parse = url_parse._replace(query=url_new_query)
+		new_url = urlunparse(url_parse)
+		print("\n\n*************")
+		print("New url: " + new_url)
+		print("************\n\n")
+		return new_url
