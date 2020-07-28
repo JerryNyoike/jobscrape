@@ -51,13 +51,13 @@ class CareerJet(site.Site):
 
 	def get_tagged_details(self, elements, job):
             date = self.clean_text(element[0]).split(" ")
-            if date[1] is "days":
+            if date[1] == "days":
                 job["uploadDate"] = datetime.utcnow() - timedelta(days=int(date.split(" ")[0])).strftime("%Y-%m-%d")
-            elif date[1] is "weeks":
+            elif date[1] == "weeks":
                 job["uploadDate"] = datetime.utcnow() - timedelta(weeks=int(date.split(" ")[0])).strftime("%Y-%m-%d")
-            elif date[1] is "months":
+            elif date[1] == "months":
                 job["uploadDate"] = datetime.utcnow() - timedelta(months=int(date.split(" ")[0])).strftime("%Y-%m-%d")
-            elif date[1] is "years":
+            elif date[1] == "years":
                 job["uploadDate"] = datetime.utcnow() - timedelta(years=int(date.split(" ")[0])).strftime("%Y-%m-%d")
             else:
                 job["uploadDate"] = ' '.join(date)
