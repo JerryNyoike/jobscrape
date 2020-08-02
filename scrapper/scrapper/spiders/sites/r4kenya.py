@@ -22,7 +22,7 @@ class R4kenya(site.Site):
 	def parse(self, response):
 		job = Job()
 		job["ID"] = 1
-		job["website"]= self.meta["domain"]
+		job["website"]= self.meta["name"]
 		job["url"] = response.url
 		job["jobTitle"] = response.css('header h1.title::text').get()
 		job["positionLevel"] = response.css('header h1.title::text').get()

@@ -45,7 +45,7 @@ class CareerPoint(site.Site):
 
 
         job["ID"] = 1
-        job["website"] = self.meta["domain"]
+        job["website"] = self.meta["name"]
         job["url"] = response.url
         job["jobTitle"] = title
         job["company"] = title.split('Job')[-1]

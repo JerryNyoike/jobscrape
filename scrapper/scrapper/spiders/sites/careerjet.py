@@ -1,6 +1,7 @@
 from . import site
 from scrapper.items import Job
 from re import search, IGNORECASE
+from datetime import datetime, timedelta
 
 
 class CareerJet(site.Site):
@@ -21,7 +22,7 @@ class CareerJet(site.Site):
 	def parse(self, response):
 		job = Job()
 		job["ID"] = 1
-		job["website"]= self.meta["domain"]
+		job["website"]= self.meta["name"]
 		job["url"] = response.url
 		job["jobTitle"] = self.clean_text(response.css('header h1::text').get())
 		job["positionLevel"] = "N/A"
@@ -49,7 +50,17 @@ class CareerJet(site.Site):
 			job["jobType"] = self.clean_text(elements[6])
 
 	def get_tagged_details(self, elements, job):
-		job["uploadDate"] = self.clean_text(elements[0])
+            date = self.clean_text(element[0]).split(" ")
+            if date[1] == "days":
+                job["uploadDate"] = datetime.utcnow() - timedelta(days=int(date.split(" ")[0])).strftime("%Y-%m-%d")
+            elif date[1] == "weeks":
+                job["uploadDate"] = datetime.utcnow() - timedelta(weeks=int(date.split(" ")[0])).strftime("%Y-%m-%d")
+            elif date[1] == "months":
+                job["uploadDate"] = datetime.utcnow() - timedelta(months=int(date.split(" ")[0])).strftime("%Y-%m-%d")
+            elif date[1] == "years":
+                job["uploadDate"] = datetime.utcnow() - timedelta(years=int(date.split(" ")[0])).strftime("%Y-%m-%d")
+            else:
+                job["uploadDate"] = ' '.join(date)
 
 	def get_description(self, titles, divs, job):
 		divs = self.clean_page(divs)

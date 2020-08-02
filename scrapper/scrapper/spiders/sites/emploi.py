@@ -12,6 +12,7 @@ class Emploi(site.Site):
 			"domain": 'https://www.emploi.co',
 			"method": "GET",
 			"search_param": "q",
+			"get_args": {"location", -1},
 			"link_selector": 'div.card-body h4 a::attr(href)'
 		}
 		super().__init__(self.meta)
@@ -20,7 +21,7 @@ class Emploi(site.Site):
 	def parse(self, response):
 		job = Job()
 		job["ID"] = 1
-		job["website"]= self.meta["domain"]
+		job["website"]= self.meta["name"]
 		job["url"] = response.url
 		job["jobTitle"] = response.css('#postJob h2::text').get()
 		job["positions"] = 1
