@@ -17,3 +17,8 @@ This projects purpose is to obtain data on job postings from multiple sources an
 
 ## Sample output
 The CSV file is given as output and is stored within the *./scraper/scraper/* directory.
+
+## Contributors
+[Braxton Muimi](https://github.com/Brackie)
+
+[Jerry Nyoike](https://github.com/JerryNyoike)
